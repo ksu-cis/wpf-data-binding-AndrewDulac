@@ -38,6 +38,38 @@ namespace UniversityRegistry.UI
                 new Person(){FirstName="Dora", LastName="Explorer", DateOfBirth=new DateTime(1999, 6, 12), Role=Role.UndergraduateStudent, Active=true},
                 new Person(){FirstName="Caillou", LastName="Pine", DateOfBirth=new DateTime(1997, 9, 15), Role=Role.UndergraduateStudent, Active=true}
             };
+            DataContext = people;
+        }
+
+
+        /// <summary>
+        /// Updates the DataContext of the PersonControl to the item selected in
+        /// the PersonList
+        /// </summary>
+        /// <param name="sender">The list of people</param>
+        /// <param name="e">The selection details</param>
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0)
+            {
+                pcDetails.DataContext = null;
+            }
+            else
+            {
+                pcDetails.DataContext = e.AddedItems[0];
+            }
+        }
+
+        public event SelectionChangedEventHandler SelectionChanged;
+
+        /// <summary>
+        /// A proxy event listener that passes on SelectionChanged events
+        /// </summary>
+        /// <param name="sender">The ListView that had its selection changed</param>
+        /// <param name="e">The event arguments</param>
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectionChanged?.Invoke(this, e);
         }
     }
 }
